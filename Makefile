@@ -10,6 +10,6 @@ clean:
 	rm -f main *.o *~
 
 format:
-	clang-format -style=file -i *.c *.h
+	clang-format -style=google -i *.c *.h
 
 .PHONY: clean format
