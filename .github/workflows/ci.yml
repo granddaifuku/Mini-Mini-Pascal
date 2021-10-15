@@ -21,17 +21,4 @@ jobs:
         run: make clean
 
       - name: format
-        run: make format
-
-      - name: auto-fix
-        run: |
-          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          if (git diff --shortstat | grep '[0-9]'); then \
-            git add .; \
-            git commit -m "Auto format"; \
-            git push origin HEAD:${GITHUB_REF}; \
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: clang-format --dry-run -Werror -style=google *.c *.h
