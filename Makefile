@@ -9,4 +9,7 @@ all: $(OBJS)
 clean:
 	rm -f main *.o *~
 
-.PHONY: clean
+format:
+	clang-format -i *.c *.h
+
+.PHONY: clean format
