@@ -7,6 +7,7 @@ all: $(OBJS)
 
 build:
 	docker build ./ -t mini-mini-pascal
+	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal make
 
 rmi:
 	docker rmi mini-mini-pascal
