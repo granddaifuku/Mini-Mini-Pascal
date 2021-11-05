@@ -21,4 +21,4 @@ jobs:
         run: make clean
 
       - name: format
-        run: clang-format --dry-run -Werror -style=google *.c *.h
+        run: clang-format --dry-run -Werror -style=google *.cpp *.h
