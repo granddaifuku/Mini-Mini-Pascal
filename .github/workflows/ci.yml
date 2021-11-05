@@ -6,27 +6,19 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  CARGO_TERM_COLOR: always
-  RUST_BACKTRACE: 1
-  RUST_TEST_THREADS: 1
-
 jobs:
-  compiler_test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: Check
-        run: cargo check
+      - name: build
+        run: make
 
-      - name: Format
-        run: cargo fmt --all -- --check
+      - name: clean
+        run: make clean
 
-      - name: Clippy
-        run: cargo clippy -- -D warnings
-
-      - name: Test
-        run: cargo test --verbose
+      - name: format
+        run: clang-format --dry-run -Werror -style=google *.c *.h
