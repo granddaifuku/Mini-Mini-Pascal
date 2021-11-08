@@ -36,7 +36,7 @@ Node *stmt() {
 
     Token *tok = consume_ident();
     node->offset =
-        tok->str[0] - 'A';  // Only single-character variable is allowed
+        tok->str[0] - 'A'; // Only single-character variable is allowed
     expect(")");
 
     return node;
@@ -90,9 +90,23 @@ Node *relational() {
 
 // simple = (("+ | "-")? term)+
 Node *simple() {
+  Node *node = new Node;
   if (consume("+")) {
+    node = term();
+  } else if (consume("-")) {
+    node = term();
+  } else {
+    //  TODO: error
   }
-  if (consume("-")) {
+
+  for (;;) {
+    if (consume("+")) {
+      node = new_node(ND_ADD, node, term());
+    } else if (consume("-")) {
+      node = new_node(ND_SUB, node, term());
+    } else {
+      return node;
+    }
   }
 }
 
