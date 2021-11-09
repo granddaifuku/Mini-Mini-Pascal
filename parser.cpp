@@ -24,7 +24,6 @@ void program() {
   while (!at_eof()) {
     code[i++] = stmt();
   }
-  expect(".");
   code[i] = NULL;
 }
 
@@ -65,7 +64,12 @@ Node *stmt() {
   }
 
   Node *node;
-  if (!consume(";")) {
+
+  if (!at_eof() && !consume(";")) {
+    // TODO: Error
+  } else if (!consume(".")) {
+    // TODO: Error
+  } else {
     // TODO: Error
   }
 
