@@ -37,7 +37,7 @@ Token *tokenize(std::vector<std::string> user_inputs) {
       if (c == '.' || c == ';' || c == '<' || c == '=' || c == '>' ||
           c == '+' || c == '-' || c == '*' || c == '/' || c == '(' ||
           c == ')') {
-        cur = new_token(TK_RESERVED, cur, {c});  // {c}: char -> string
+        cur = new_token(TK_RESERVED, cur, {c}); // {c}: char -> string
         continue;
       }
       // READ
@@ -161,4 +161,4 @@ int expect_number() {
   return val;
 }
 
-bool at_eof() { return token->kind = TK_EOF; }
+bool at_eof() { return token->kind == TK_EOF; }
