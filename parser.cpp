@@ -27,12 +27,15 @@ void program() {
   code[i] = NULL;
 }
 
+// stmt = READ "(" Ident ")" |
+//        WRITE "(" Ident ")" |
+//        IDENT ":" "=" simple |
+//        WHILE relational DO stmt ENDWHILE  (";" | ".")?
 Node *stmt() {
   if (consume("READ")) {
     Node *node = new Node;
     node->kind = ND_READ;
     expect("(");
-
     Token *tok = consume_ident();
     node->offset =
         tok->str[0] - 'A';  // Only single-character variable is allowed
@@ -94,6 +97,7 @@ Node *relational() {
 
 // simple = (("+ | "-")? term)+
 Node *simple() {
+  // TODO: fix
   Node *node = new Node;
   if (consume("+")) {
     node = term();
