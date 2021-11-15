@@ -8,6 +8,11 @@
 #include <string>
 #include <vector>
 
+// -------------------
+// File Implementation
+// -------------------
+std::vector<std::string> read_file(std::string path);
+
 // ------------------------
 // Tokenizer Implementation
 // ------------------------
