@@ -3,8 +3,15 @@
 #include <cctype>
 #include <cstddef>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
+
+// -------------------
+// File Implementation
+// -------------------
+std::vector<std::string> read_file(std::string path);
 
 // ------------------------
 // Tokenizer Implementation
