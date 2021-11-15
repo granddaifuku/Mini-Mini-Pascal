@@ -17,15 +17,15 @@ std::vector<std::string> read_file(std::string path);
 // Tokenizer Implementation
 // ------------------------
 enum TokenKind {
-  TK_RESERVED, // Symbols
-  TK_IDNET,    // Identifier
-  TK_NUM,      // Number
-  TK_READ,     // Read
-  TK_WRITE,    // Write
-  TK_WHILE,    // While
-  TK_DO,       // Do
-  TK_ENDWHILE, // Endwhile
-  TK_EOF,      // End of File
+  TK_RESERVED,  // Symbols
+  TK_IDNET,     // Identifier
+  TK_NUM,       // Number
+  TK_READ,      // Read
+  TK_WRITE,     // Write
+  TK_WHILE,     // While
+  TK_DO,        // Do
+  TK_ENDWHILE,  // Endwhile
+  TK_EOF,       // End of File
 };
 
 struct Token {
@@ -34,7 +34,7 @@ struct Token {
   int val;
   std::string str;
 
-public:
+ public:
   Token();
 };
 
