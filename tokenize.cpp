@@ -120,3 +120,45 @@ Token *tokenize(std::vector<std::string> user_inputs) {
   new_token(TK_EOF, cur, " ");
   return head.next;
 }
+
+bool consume(std::string op) {
+  if ((token->kind != TK_RESERVED && token->kind != TK_READ &&
+       token->kind != TK_WRITE && token->kind != TK_WHILE &&
+       token->kind != TK_DO && token->kind != TK_ENDWHILE) ||
+      op != token->str) {
+    return false;
+  }
+  token = token->next;
+
+  return true;
+}
+
+Token *consume_ident() {
+  if (token->kind != TK_IDNET) {
+    return 0;
+  }
+  Token *tok = token;
+  token = token->next;
+
+  return tok;
+}
+
+void expect(std::string op) {
+  if (token->kind != TK_RESERVED || token->str != op) {
+    // TODO: Error
+  }
+  token = token->next;
+}
+
+int expect_number() {
+  if (token->kind != TK_NUM) {
+    // TODO: Error
+  }
+
+  int val = token->val;
+  token = token->next;
+
+  return val;
+}
+
+bool at_eof() { return token->kind == TK_EOF; }
