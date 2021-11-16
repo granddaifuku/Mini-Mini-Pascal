@@ -21,16 +21,26 @@ Node *new_node_num(int val) {
 
 void program() {
   int i = 0;
+  // TODO: Consider the need of EOF checking
   while (!at_eof()) {
-    code[i++] = stmt();
+    Node *node = stmt();
+    if (consume(";")) {
+      code[i++] = node;
+      continue;
+    } else if (consume(".")) {
+      code[i++] = node;
+      code[i] = NULL;
+      break;
+    } else {
+      // TODO: Error
+    }
   }
-  code[i] = NULL;
 }
 
 // stmt = READ "(" Ident ")" |
 //        WRITE "(" Ident ")" |
 //        IDENT ":" "=" simple |
-//        WHILE relational DO stmt ENDWHILE  (";" | ".")?
+//        WHILE relational DO stmt+ ENDWHILE  ";"?
 Node *stmt() {
   if (consume("READ")) {
     Node *node = new Node;
@@ -60,21 +70,26 @@ Node *stmt() {
     node->kind = ND_WHILE;
     node->cond = relational();
     expect("DO");
-    node->then = stmt();
+    for (;;) {
+      node->then.push_back(stmt());
+      if (!consume(";")) {
+        break;
+      }
+    }
     expect("ENDWHILE");
 
     return node;
   }
 
   Node *node;
-
-  if (!at_eof() && !consume(";")) {
-    // TODO: Error
-  } else if (!consume(".")) {
-    // TODO: Error
-  } else {
+  Token *tok = consume_ident();
+  if (!tok) {
     // TODO: Error
   }
+  node->offset = tok->str[0] - 'A';
+  expect(":=");
+  node->kind = ND_ASS;
+  node->rhs = simple();
 
   return node;
 }
@@ -97,14 +112,14 @@ Node *relational() {
 
 // simple = (("+ | "-")? term)+
 Node *simple() {
-  // TODO: fix
+  // TODO: consider case which symbol is not expected
   Node *node = new Node;
   if (consume("+")) {
     node = term();
   } else if (consume("-")) {
-    node = term();
+    node = new_node(ND_SUB, new_node_num(0), term());
   } else {
-    //  TODO: error
+    node = term();
   }
 
   for (;;) {

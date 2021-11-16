@@ -71,7 +71,7 @@ struct Node {
 
   // WHILE cond DO then ENDWHILE
   Node *cond;
-  Node *then;
+  std::vector<Node *> then;
 
  public:
   Node();
