@@ -10,6 +10,9 @@ build:
 	docker build ./ -t mini-mini-pascal
 	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal make
 
+run: 
+	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal ./main ${ARG}
+
 rmi:
 	docker rmi mini-mini-pascal
 
