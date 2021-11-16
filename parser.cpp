@@ -81,7 +81,7 @@ Node *stmt() {
     return node;
   }
 
-  Node *node;
+  Node *node = new Node;
   Token *tok = consume_ident();
   if (!tok) {
     // TODO: Error
