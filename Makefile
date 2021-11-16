@@ -10,7 +10,7 @@ build:
 	docker build ./ -t mini-mini-pascal
 	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal make
 
-run: 
+run: build
 	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal ./main ${ARG}
 
 rmi:
@@ -22,4 +22,4 @@ clean:
 format:
 	clang-format -style=google -i *.cpp *.h
 
-.PHONY: clean format
+.PHONY: build run rmi clean format
