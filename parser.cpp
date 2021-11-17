@@ -23,6 +23,7 @@ void program() {
   int i = 0;
   // TODO: Consider the need of EOF checking
   while (!at_eof()) {
+    //    std::cout << token->str << std::endl;
     Node *node = stmt();
     if (consume(";")) {
       code[i++] = node;
@@ -81,8 +82,10 @@ Node *stmt() {
     return node;
   }
 
+  // TODO: Refactor
   Node *node = new Node;
   Token *tok = consume_ident();
+  //  std::cout << "stmt" << token->str << std::endl;
   if (!tok) {
     // TODO: Error
   }
@@ -107,7 +110,7 @@ Node *relational() {
     // TODO: error
   }
 
-  return 0;
+  return node;
 }
 
 // simple = (("+ | "-")? term)+
@@ -161,6 +164,7 @@ Node *factor() {
     Node *node = new Node;
     node->kind = ND_VAR;
     node->offset = tok->str[0] - 'A';
+    return node;
   }
 
   return primary();

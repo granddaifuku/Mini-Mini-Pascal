@@ -2,18 +2,21 @@
 
 #include <cctype>
 #include <cstddef>
+#include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 
 const int N = 1000;
+extern int label_number;
 
 // -------------------
 // File Implementation
 // -------------------
-std::vector<std::string> read_file(std::string path);
+extern std::vector<std::string> read_file(std::string path);
 
 // ------------------------
 // Tokenizer Implementation
@@ -98,7 +101,19 @@ extern Node *primary();
 
 extern Node *code[N];
 
+// -----------------------------
+// Code generator Implementation
+// -----------------------------
+
+extern std::vector<std::string> gen();
+extern void emit(std::vector<std::string> &codes,
+                 std::map<std::string, int> &flags, Node *node);
+extern void resolve(std::vector<std::string> &codes,
+                    std::map<std::string, int> &flags);
+
 // -----------------
 // Utility functions
 // -----------------
 extern int is_alnum(char c);
+extern std::string format(const std::string &fmt, int arg);
+extern int label_num();
