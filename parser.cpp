@@ -23,7 +23,6 @@ void program() {
   int i = 0;
   // TODO: Consider the need of EOF checking
   while (!at_eof()) {
-    //    std::cout << token->str << std::endl;
     Node *node = stmt();
     if (consume(";")) {
       code[i++] = node;
@@ -49,7 +48,7 @@ Node *stmt() {
     expect("(");
     Token *tok = consume_ident();
     node->offset =
-        tok->str[0] - 'A';  // Only single-character variable is allowed
+        tok->str[0] - 'A'; // Only single-character variable is allowed
     expect(")");
 
     return node;
@@ -85,7 +84,6 @@ Node *stmt() {
   // TODO: Refactor
   Node *node = new Node;
   Token *tok = consume_ident();
-  //  std::cout << "stmt" << token->str << std::endl;
   if (!tok) {
     // TODO: Error
   }
