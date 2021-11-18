@@ -20,15 +20,15 @@ extern void write_file(const std::vector<std::string> &codes, std::string path);
 // Tokenizer Implementation
 // ------------------------
 enum TokenKind {
-  TK_RESERVED, // Symbols
-  TK_IDNET,    // Identifier
-  TK_NUM,      // Number
-  TK_READ,     // Read
-  TK_WRITE,    // Write
-  TK_WHILE,    // While
-  TK_DO,       // Do
-  TK_ENDWHILE, // Endwhile
-  TK_EOF,      // End of File
+  TK_RESERVED,  // Symbols
+  TK_IDNET,     // Identifier
+  TK_NUM,       // Number
+  TK_READ,      // Read
+  TK_WRITE,     // Write
+  TK_WHILE,     // While
+  TK_DO,        // Do
+  TK_ENDWHILE,  // Endwhile
+  TK_EOF,       // End of File
 };
 
 struct Token {
@@ -37,7 +37,7 @@ struct Token {
   int val;
   std::string str;
 
-public:
+ public:
   Token();
 };
 
@@ -56,24 +56,24 @@ extern Token *token;
 // Parser Implementation
 // ---------------------
 enum NodeKind {
-  ND_ADD,   // +
-  ND_SUB,   // -
-  ND_MUL,   // *
-  ND_DIV,   // /
-  ND_EQT,   // =
-  ND_LES,   // <
-  ND_ASS,   // :=
-  ND_READ,  // Read
-  ND_WRITE, // Write
-  ND_WHILE, // While
-  ND_NUM,   // Number
-  ND_VAR,   // Variable
+  ND_ADD,    // +
+  ND_SUB,    // -
+  ND_MUL,    // *
+  ND_DIV,    // /
+  ND_EQT,    // =
+  ND_LES,    // <
+  ND_ASS,    // :=
+  ND_READ,   // Read
+  ND_WRITE,  // Write
+  ND_WHILE,  // While
+  ND_NUM,    // Number
+  ND_VAR,    // Variable
 };
 
 struct Node {
   NodeKind kind;
-  Node *lhs; // Left-hand side
-  Node *rhs; // Right-hand side
+  Node *lhs;  // Left-hand side
+  Node *rhs;  // Right-hand side
   int val;
   int offset;
 
@@ -81,7 +81,7 @@ struct Node {
   Node *cond;
   std::vector<Node *> then;
 
-public:
+ public:
   Node();
 };
 
