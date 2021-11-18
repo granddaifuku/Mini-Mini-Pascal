@@ -53,24 +53,24 @@ void emit(std::vector<std::string> &codes, std::map<std::string, int> &flags,
   emit(codes, flags, node->lhs);
   emit(codes, flags, node->rhs);
   switch (node->kind) {
-  case ND_ADD:
-    codes.push_back("ADD");
-    break;
-  case ND_SUB:
-    codes.push_back("SUB");
-    break;
-  case ND_MUL:
-    codes.push_back("MLT");
-    break;
-  case ND_DIV:
-    codes.push_back("DIV");
-    break;
-  case ND_EQT:
-    codes.push_back("EQT");
-    break;
-  case ND_LES:
-    codes.push_back("LET");
-    break;
+    case ND_ADD:
+      codes.push_back("ADD");
+      break;
+    case ND_SUB:
+      codes.push_back("SUB");
+      break;
+    case ND_MUL:
+      codes.push_back("MLT");
+      break;
+    case ND_DIV:
+      codes.push_back("DIV");
+      break;
+    case ND_EQT:
+      codes.push_back("EQT");
+      break;
+    case ND_LES:
+      codes.push_back("LET");
+      break;
   }
 }
 

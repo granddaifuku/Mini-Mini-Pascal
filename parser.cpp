@@ -48,7 +48,7 @@ Node *stmt() {
     expect("(");
     Token *tok = consume_ident();
     node->offset =
-        tok->str[0] - 'A'; // Only single-character variable is allowed
+        tok->str[0] - 'A';  // Only single-character variable is allowed
     expect(")");
 
     return node;
