@@ -16,3 +16,16 @@ std::vector<std::string> read_file(std::string path) {
 
   return inputs;
 }
+
+void write_file(const std::vector<std::string> &codes, std::string path = "") {
+  if (path == "") {
+    path = "./OUT.OBJ";
+  }
+
+  std::ofstream ofs;
+  ofs.open(path, std::ios::out);
+
+  for (int i = 0; i < (int)codes.size(); ++i) {
+    ofs << codes[i] << std::endl;
+  }
+}
