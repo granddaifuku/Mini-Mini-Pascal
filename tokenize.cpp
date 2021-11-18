@@ -5,8 +5,8 @@ Token::Token() {}
 Token *new_token(TokenKind kind, Token *cur, std::string str) {
   Token *tok = new Token;
   tok->kind = kind;
-  tok->next = cur;
   tok->str = str;
+  cur->next = tok;
 
   return tok;
 }
@@ -110,6 +110,7 @@ Token *tokenize(std::vector<std::string> user_inputs) {
         }
         cur = new_token(TK_NUM, cur,
                         user_input.substr(start_idx, j - start_idx + 1));
+        cur->val = val;
         continue;
       }
 
