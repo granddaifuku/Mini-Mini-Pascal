@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
   // Parse
   program();
 
+  // Code generation
   std::vector<std::string> codes = gen();
   for (int i = 0; i < (int)codes.size(); ++i) {
     std::cout << codes[i] << std::endl;

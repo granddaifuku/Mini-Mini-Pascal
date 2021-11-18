@@ -74,9 +74,9 @@ void emit(std::vector<std::string> &codes, std::map<std::string, int> &flags,
   }
 }
 
+// Find the label and replace it with the target line of jump
 void resolve(std::vector<std::string> &codes,
              std::map<std::string, int> &flags) {
-  // Find the label
   for (int i = 0; i < (int)codes.size(); ++i) {
     std::string label = "";
     std::string base = "";
