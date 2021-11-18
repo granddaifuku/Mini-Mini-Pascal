@@ -17,7 +17,7 @@ rmi:
 	docker rmi mini-mini-pascal
 
 clean:
-	rm -f main *.o *~
+	rm -f main *.o *~ *.OBJ
 
 format:
 	clang-format -style=google -i *.cpp *.h

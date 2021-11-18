@@ -17,6 +17,7 @@ extern int label_number;
 // File Implementation
 // -------------------
 extern std::vector<std::string> read_file(std::string path);
+extern void write_file(const std::vector<std::string> &codes, std::string path);
 
 // ------------------------
 // Tokenizer Implementation

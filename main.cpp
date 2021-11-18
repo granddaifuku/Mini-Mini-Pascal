@@ -12,11 +12,12 @@ int main(int argc, char *argv[]) {
     // TODO: error;
     return 1;
   }
-
+  // Init
   label_number = 0;
+  std::string path = argv[1];
 
   // Input
-  std::vector<std::string> inputs = read_file(argv[1]);
+  std::vector<std::string> inputs = read_file(path);
 
   // Tokenize
   token = tokenize(inputs);
@@ -26,9 +27,9 @@ int main(int argc, char *argv[]) {
 
   // Code generation
   std::vector<std::string> codes = gen();
-  for (int i = 0; i < (int)codes.size(); ++i) {
-    std::cout << codes[i] << std::endl;
-  }
+
+  // Output file
+  write_file(codes, path);
 
   return 0;
 }
