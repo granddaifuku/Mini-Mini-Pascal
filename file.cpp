@@ -5,7 +5,7 @@ std::vector<std::string> read_file(std::string path) {
 
   std::ifstream ifs(path, std::ios::in);
   if (!ifs) {
-    std::cout << "Failed to open file\n" << std::endl;
+    std::cout << "Failed to open file" << std::endl;
     std::exit(1);
   }
 
@@ -17,13 +17,19 @@ std::vector<std::string> read_file(std::string path) {
   return inputs;
 }
 
-void write_file(const std::vector<std::string> &codes, std::string path = "") {
-  if (path == "") {
-    path = "./OUT.OBJ";
-  }
+void write_file(const std::vector<std::string> &codes, std::string path) {
+  int path_index = path.find_last_of("/") + 1;
+  int ext_index = path.find_last_of(".");
+  std::string file_name =
+      "./" + path.substr(path_index, ext_index - path_index) + ".OBJ";
 
   std::ofstream ofs;
-  ofs.open(path, std::ios::out);
+  ofs.open(file_name, std::ios::out);
+
+  if (ofs.fail()) {
+    std::cout << "Failed to open file" << std::endl;
+    std::exit(1);
+  }
 
   for (int i = 0; i < (int)codes.size(); ++i) {
     ofs << codes[i] << std::endl;
