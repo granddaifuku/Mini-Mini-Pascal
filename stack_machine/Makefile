@@ -7,11 +7,11 @@ all: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o main $(OBJS) $(LDFLAGS)
 
 build:
-	docker build ./ -t mini-mini-pascal
-	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal make
+	docker build ../ -t mini-mini-pascal
+	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal/stack_machine:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal make
 
 run: build
-	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal ./main ${ARG}
+	docker run --rm -v $(HOME)/Develop/Mini-Mini-Pascal/stack_machine:/Mini-Mini-Pascal -w /Mini-Mini-Pascal mini-mini-pascal ./main ${ARG}
 
 rmi:
 	docker rmi mini-mini-pascal
