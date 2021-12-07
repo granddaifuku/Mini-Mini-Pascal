@@ -114,7 +114,6 @@ Node *relational() {
 
 // simple = (("+ | "-")? term)+
 Node *simple() {
-  // TODO: consider case which symbol is not expected
   Node *node = new Node;
   if (consume("+")) {
     node = term();
