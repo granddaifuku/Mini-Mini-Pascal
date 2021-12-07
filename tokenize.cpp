@@ -81,7 +81,7 @@ Token *tokenize(std::vector<std::string> user_inputs) {
         std::string s = user_input.substr(j, 2);
         if (s == "DO") {
           if (j + 2 == len || (j + 2 < len && !is_alnum(user_input[j + 2]))) {
-            cur = new_token(TK_READ, cur, "DO", i, j);
+            cur = new_token(TK_DO, cur, "DO", i, j);
             j += 1;
             continue;
           }
@@ -92,7 +92,7 @@ Token *tokenize(std::vector<std::string> user_inputs) {
         std::string s = user_input.substr(j, 8);
         if (s == "ENDWHILE") {
           if (j + 8 == len || (j + 8 < len && !is_alnum(user_input[j + 8]))) {
-            cur = new_token(TK_READ, cur, "ENDWHILE", i, j);
+            cur = new_token(TK_ENDWHILE, cur, "ENDWHILE", i, j);
             j += 7;
             continue;
           }
@@ -160,7 +160,9 @@ Token *consume_ident() {
 }
 
 void expect(std::string op) {
-  if (token->kind != TK_RESERVED || token->str != op) {
+  if ((token->kind != TK_RESERVED && token->kind != TK_DO &&
+       token->kind != TK_ENDWHILE) ||
+      token->str != op) {
     error(token->row, token->col, "\"%s\" is Expected", op.c_str());
   }
   token = token->next;
