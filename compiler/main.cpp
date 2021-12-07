@@ -11,8 +11,9 @@ std::vector<std::string> inputs;
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
-    // TODO: error;
-    return 1;
+    std::cerr << "The Number of Expected Args is 1. Got: " << argc - 1
+              << std::endl;
+    exit(1);
   }
 
   // Init
