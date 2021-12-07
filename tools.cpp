@@ -13,4 +13,12 @@ std::string format(const std::string &fmt, int arg) {
   return std::string(&buf[0], &buf[0] + len);
 }
 
+std::string extract_file_name(std::string path) {
+  int path_index = path.find_last_of("/") + 1;
+  int ext_index = path.find_last_of(".");
+  std::string name = path.substr(path_index, ext_index - path_index);
+
+  return name;
+}
+
 int label_num() { return label_number++; }

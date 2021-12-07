@@ -17,14 +17,11 @@ std::vector<std::string> read_file(std::string path) {
   return inputs;
 }
 
-void write_file(const std::vector<std::string> &codes, std::string path) {
-  int path_index = path.find_last_of("/") + 1;
-  int ext_index = path.find_last_of(".");
-  std::string file_name =
-      "./" + path.substr(path_index, ext_index - path_index) + ".OBJ";
+void write_file(const std::vector<std::string> &codes) {
+  std::string output_file_name = "./" + file_name + ".OBJ";
 
   std::ofstream ofs;
-  ofs.open(file_name, std::ios::out);
+  ofs.open(output_file_name, std::ios::out);
 
   if (ofs.fail()) {
     std::cout << "Failed to open file" << std::endl;
