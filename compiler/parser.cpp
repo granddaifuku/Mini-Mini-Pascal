@@ -32,7 +32,8 @@ void program() {
       code[i] = NULL;
       break;
     } else {
-      // TODO: Error
+      error(token->row, token->col,
+            "Program: \";\" or \".\" should be Expected");
     }
   }
 }
@@ -81,11 +82,10 @@ Node *stmt() {
     return node;
   }
 
-  // TODO: Refactor
   Node *node = new Node;
   Token *tok = consume_ident();
   if (!tok) {
-    // TODO: Error
+    error(token->row, token->col, "Identifier does not Exist");
   }
   node->offset = tok->str[0] - 'A';
   expect(":=");
@@ -105,7 +105,8 @@ Node *relational() {
   } else if (consume(">")) {
     node = new_node(ND_LES, simple(), node);
   } else {
-    // TODO: error
+    error(token->row, token->col,
+          "Relational: \"=\" or \"<\", \">\" should be Expected");
   }
 
   return node;

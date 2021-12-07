@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cctype>
+#include <cstdarg>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
@@ -11,24 +12,29 @@
 #include <vector>
 
 const int N = 1000;
+const int LOWER_LIMIT = 32768;
+const int UPPER_LIMIT = 32767;
 extern int label_number;
 extern std::string file_name;
+extern std::vector<std::string> inputs;
 
 // ----------------
 // Error Processing
 // ----------------
 
-void error(std::string s);
+void error(int row, int col, std::string s, ...);
 
 // -------------------
 // File Implementation
 // -------------------
+
 extern std::vector<std::string> read_file(std::string path);
 extern void write_file(const std::vector<std::string> &codes);
 
 // ------------------------
 // Tokenizer Implementation
 // ------------------------
+
 enum TokenKind {
   TK_RESERVED,  // Symbols
   TK_IDNET,     // Identifier
@@ -46,7 +52,8 @@ struct Token {
   Token *next;
   int val;
   std::string str;
-  int line;  // The line number of file input
+  int row;  // The row number of file input
+  int col;  // The column number of file input
 
  public:
   Token();
@@ -58,8 +65,8 @@ extern void expect(std::string op);
 extern int expect_number();
 extern bool at_eof();
 
-extern Token *new_token(TokenKind kind, Token *cur, std::string str,
-                        int line_num);
+extern Token *new_token(TokenKind kind, Token *cur, std::string str, int row,
+                        int col);
 extern Token *tokenize(std::vector<std::string> user_inputs);
 
 extern Token *token;
@@ -67,6 +74,7 @@ extern Token *token;
 // ---------------------
 // Parser Implementation
 // ---------------------
+
 enum NodeKind {
   ND_ADD,    // +
   ND_SUB,    // -
@@ -88,7 +96,6 @@ struct Node {
   Node *rhs;  // Right-hand side
   int val;
   int offset;
-  int line;  // The line number of file input
 
   // WHILE cond DO then ENDWHILE
   Node *cond;
@@ -125,6 +132,7 @@ extern void resolve(std::vector<std::string> &codes,
 // -----------------
 // Utility functions
 // -----------------
+
 extern int is_alnum(char c);
 extern std::string format(const std::string &fmt, int arg);
 extern std::string extract_file_name(std::string path);
