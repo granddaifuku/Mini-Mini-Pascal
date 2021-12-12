@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-#[allow(dead_code)]
 pub fn read_file(path: String) -> Result<Vec<String>, Box<dyn std::error::Error>> {
     let mut inputs: Vec<String> = Vec::new();
     for res in BufReader::new(File::open(path)?).lines() {
