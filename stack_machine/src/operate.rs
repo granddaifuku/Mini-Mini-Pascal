@@ -15,25 +15,25 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                 "ADD" => {
                     let a = st.pop().unwrap();
                     let b = st.pop().unwrap();
-                    st.push(a + b);
+                    st[stack_pointer - 2 as usize] = a + b;
                     stack_pointer -= 1;
                 }
                 "SUB" => {
                     let a = st.pop().unwrap();
                     let b = st.pop().unwrap();
-                    st.push(b - a);
+                    st[stack_pointer - 2 as usize] = b - a;
                     stack_pointer -= 1;
                 }
                 "MLT" => {
                     let a = st.pop().unwrap();
                     let b = st.pop().unwrap();
-                    st.push(a * b);
+                    st[stack_pointer - 2 as usize] = a * b;
                     stack_pointer -= 1;
                 }
                 "DIV" => {
                     let a = st.pop().unwrap();
                     let b = st.pop().unwrap();
-                    st.push(b / a);
+                    st[stack_pointer - 2 as usize] = b / a;
                     stack_pointer -= 1;
                 }
                 "EQL" => {
@@ -88,13 +88,13 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                     "LOD" => {
                         let var = operation[1];
                         let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        st.push(memory[pos as usize]);
+                        st[stack_pointer] = memory[pos as usize];
                         stack_pointer += 1;
                     }
                     "LDC" => {
                         let var = operation[1];
                         let num = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        st.push(num as i32);
+                        st[stack_pointer] = num as i32;
                         stack_pointer += 1;
                     }
                     "STR" => {
@@ -135,7 +135,7 @@ mod tests {
     #[test]
     fn test_normal() {
         let mut buf: Vec<u8> = Vec::new();
-        let mut operators: Vec<String> = Vec::new();
+        let operators: Vec<String> = vec!["A := 0".to_string(), "A := A + 10".to_string()];
         process(&mut buf, &operators);
     }
 }
