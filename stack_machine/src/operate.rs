@@ -1,69 +1,73 @@
-use std::io::Write;
+use std::io::{stdout, Write};
+
+const LENGTH: usize = 10000;
 
 #[allow(unused_mut)]
 pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
-    let mut st: Vec<i32> = Vec::new();
+    let mut st: [i32; LENGTH] = [0; LENGTH];
     let mut memory: [i32; 26] = [0; 26];
+    let lim = operations.len();
     let mut stack_pointer = 0;
     let mut prog_counter = 0;
 
-    // Split with the blank
-    while prog_counter < operations.len() {
+    while prog_counter < lim {
+        // Split with the blank
         let operation: Vec<&str> = operations[prog_counter].split_whitespace().collect();
+
         match operation.len() {
             1 => match operation[0] {
                 "ADD" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
-                    st[stack_pointer - 2 as usize] = a + b;
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
+                    st[stack_pointer - 2] = a + b;
                     stack_pointer -= 1;
                 }
                 "SUB" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
-                    st[stack_pointer - 2 as usize] = b - a;
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
+                    st[stack_pointer - 2] = b - a;
                     stack_pointer -= 1;
                 }
                 "MLT" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
-                    st[stack_pointer - 2 as usize] = a * b;
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
+                    st[stack_pointer - 2] = a * b;
                     stack_pointer -= 1;
                 }
                 "DIV" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
-                    st[stack_pointer - 2 as usize] = b / a;
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
+                    st[stack_pointer - 2] = b / a;
                     stack_pointer -= 1;
                 }
                 "EQL" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
                     stack_pointer -= 2;
                     if a == b {
-                        st[stack_pointer as usize] = 1;
+                        st[stack_pointer] = 1;
                     } else {
-                        st[stack_pointer as usize] = 0;
+                        st[stack_pointer] = 0;
                     }
                 }
                 "GRT" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
                     stack_pointer -= 2;
                     if a < b {
-                        st[stack_pointer as usize] = 1;
+                        st[stack_pointer] = 1;
                     } else {
-                        st[stack_pointer as usize] = 0;
+                        st[stack_pointer] = 0;
                     }
                 }
                 "LET" => {
-                    let a = st.pop().unwrap();
-                    let b = st.pop().unwrap();
+                    let a = st[stack_pointer - 1];
+                    let b = st[stack_pointer - 2];
                     stack_pointer -= 2;
                     if a > b {
-                        st[stack_pointer as usize] = 1;
+                        st[stack_pointer] = 1;
                     } else {
-                        st[stack_pointer as usize] = 0;
+                        st[stack_pointer] = 0;
                     }
                 }
                 _ => {
@@ -74,47 +78,48 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                 match operation[0] {
                     "GET" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
+                        let pos: usize = var.parse().unwrap();
                         // read std in
                         let mut s = String::new();
-                        std::io::stdin().read_line(&mut s).unwrap();
-                        memory[pos as usize] = s.parse().unwrap();
+                        std::io::stdin().read_line(&mut s).ok();
+                        memory[pos] = s.trim().parse().ok().unwrap();
                     }
                     "PUT" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        writeln!(writer, "{}", memory[pos as usize]).unwrap();
+                        let pos: usize = var.parse().unwrap();
+                        writeln!(writer, "{}", memory[pos]).unwrap();
+                        writeln!(stdout(), "{}", memory[pos]).unwrap();
                     }
                     "LOD" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        st[stack_pointer] = memory[pos as usize];
+                        let pos: usize = var.parse().unwrap();
+                        st[stack_pointer] = memory[pos];
                         stack_pointer += 1;
                     }
                     "LDC" => {
                         let var = operation[1];
-                        let num = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        st[stack_pointer] = num as i32;
+                        let num: i32 = var.parse().unwrap();
+                        st[stack_pointer] = num;
                         stack_pointer += 1;
                     }
                     "STR" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        let num = st.pop().unwrap();
+                        let pos: usize = var.parse().unwrap();
+                        let num = st[stack_pointer - 1];
                         stack_pointer -= 1;
-                        memory[pos as usize] = num;
+                        memory[pos] = num;
                     }
                     "CJP" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        if st[stack_pointer as usize] == 0 {
-                            prog_counter = pos as usize;
+                        let pos: usize = var.parse().unwrap();
+                        if st[stack_pointer] == 0 {
+                            prog_counter = pos;
                         }
                     }
                     "UJP" => {
                         let var = operation[1];
-                        let pos = var.chars().nth(0).unwrap() as u32 - 'A' as u32;
-                        prog_counter = pos as usize;
+                        let pos: usize = var.parse().unwrap();
+                        prog_counter = pos;
                     }
                     _ => {
                         panic!("Invalid Instruction Code")
@@ -125,6 +130,7 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                 panic!("Invalid Operators");
             }
         }
+        prog_counter += 1;
     }
 }
 
@@ -135,7 +141,16 @@ mod tests {
     #[test]
     fn test_normal() {
         let mut buf: Vec<u8> = Vec::new();
-        let operators: Vec<String> = vec!["A := 0".to_string(), "A := A + 10".to_string()];
+        let operators: Vec<String> = vec![
+            "LDC 5".to_string(),
+            "STR 0".to_string(),
+            "LOD 0".to_string(),
+            "LDC 10".to_string(),
+            "ADD".to_string(),
+            "STR 0".to_string(),
+            "PUT 0".to_string(),
+        ];
         process(&mut buf, &operators);
+        assert_eq!(buf, b"15\n");
     }
 }
