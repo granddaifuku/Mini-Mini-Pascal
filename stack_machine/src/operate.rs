@@ -139,7 +139,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_normal() {
+    fn test_normal_add() {
         let mut buf: Vec<u8> = Vec::new();
         let operators: Vec<String> = vec![
             "LDC 5".to_string(),
@@ -152,5 +152,84 @@ mod tests {
         ];
         process(&mut buf, &operators);
         assert_eq!(buf, b"15\n");
+    }
+
+    #[test]
+    fn test_normal_sub() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operators: Vec<String> = vec![
+            "LDC 5".to_string(),
+            "STR 0".to_string(),
+            "LOD 0".to_string(),
+            "LDC 10".to_string(),
+            "SUB".to_string(),
+            "STR 0".to_string(),
+            "PUT 0".to_string(),
+        ];
+        process(&mut buf, &operators);
+        assert_eq!(buf, b"-5\n");
+    }
+
+    #[test]
+    fn test_normal_mlt() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operators: Vec<String> = vec![
+            "LDC 5".to_string(),
+            "STR 0".to_string(),
+            "LOD 0".to_string(),
+            "LDC 10".to_string(),
+            "MLT".to_string(),
+            "STR 0".to_string(),
+            "PUT 0".to_string(),
+        ];
+        process(&mut buf, &operators);
+        assert_eq!(buf, b"50\n");
+    }
+
+    #[test]
+    fn test_normal_div() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operators: Vec<String> = vec![
+            "LDC 5".to_string(),
+            "STR 0".to_string(),
+            "LOD 0".to_string(),
+            "LDC 2".to_string(),
+            "DIV".to_string(),
+            "STR 0".to_string(),
+            "PUT 0".to_string(),
+        ];
+        process(&mut buf, &operators);
+        assert_eq!(buf, b"2\n");
+    }
+
+    #[test]
+    fn test_normal_sample2() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operators: Vec<String> = vec![
+            "LDC 3".to_string(),
+            "STR 11".to_string(),
+            "LDC 0".to_string(),
+            "STR 0".to_string(),
+            "LDC 1".to_string(),
+            "STR 10".to_string(),
+            "LOD 10".to_string(),
+            "LOD 11".to_string(),
+            "LDC 1".to_string(),
+            "ADD".to_string(),
+            "LET".to_string(),
+            "CJP 20".to_string(),
+            "LOD 0".to_string(),
+            "LOD 10".to_string(),
+            "ADD".to_string(),
+            "STR 0".to_string(),
+            "LOD 10".to_string(),
+            "LDC 1".to_string(),
+            "ADD".to_string(),
+            "STR 10".to_string(),
+            "UJP 5".to_string(),
+            "PUT 0".to_string(),
+        ];
+        process(&mut buf, &operators);
+        assert_eq!(buf, b"6\n");
     }
 }
