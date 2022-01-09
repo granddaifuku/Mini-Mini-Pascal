@@ -1,9 +1,9 @@
-use std::io::{stdout, Write};
+use std::io::Write;
 
 const LENGTH: usize = 10000;
 
 #[allow(unused_mut)]
-pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
+pub fn process<W: Write>(writer: &mut W, operations: &[String]) {
     let mut st: [i32; LENGTH] = [0; LENGTH];
     let mut memory: [i32; 26] = [0; 26];
     let lim = operations.len();
@@ -89,7 +89,7 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                         let var = operation[1];
                         let pos: usize = var.parse().unwrap();
                         writeln!(writer, "{}", memory[pos]).unwrap();
-                        writeln!(stdout(), "{}", memory[pos]).unwrap();
+                        println!("{}", memory[pos]);
                     }
                     "LOD" => {
                         let var = operation[1];
