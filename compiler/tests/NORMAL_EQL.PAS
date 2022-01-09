@@ -1,0 +1,5 @@
+Z:=10;B:=10;
+WHILE B = Z DO
+    B := B + 2
+ENDWHILE;
+WRITE(B).

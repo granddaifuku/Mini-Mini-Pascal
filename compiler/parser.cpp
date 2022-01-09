@@ -99,7 +99,7 @@ Node *stmt() {
 Node *relational() {
   Node *node = simple();
   if (consume("=")) {
-    node = new_node(ND_EQT, node, simple());
+    node = new_node(ND_EQL, node, simple());
   } else if (consume("<")) {
     node = new_node(ND_LES, node, simple());
   } else if (consume(">")) {

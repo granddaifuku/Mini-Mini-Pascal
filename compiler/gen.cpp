@@ -65,8 +65,8 @@ void emit(std::vector<std::string> &codes, std::map<std::string, int> &flags,
     case ND_DIV:
       codes.push_back("DIV");
       break;
-    case ND_EQT:
-      codes.push_back("EQT");
+  case ND_EQL:
+	codes.push_back("EQL");
       break;
     case ND_LES:
       codes.push_back("LET");

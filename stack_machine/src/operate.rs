@@ -41,6 +41,7 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                     stack_pointer -= 1;
                 }
                 "EQL" => {
+                    println!("{}", stack_pointer);
                     let a = st[stack_pointer - 1];
                     let b = st[stack_pointer - 2];
                     stack_pointer -= 2;
@@ -113,13 +114,13 @@ pub fn process<W: Write>(writer: &mut W, operations: &Vec<String>) {
                         let var = operation[1];
                         let pos: usize = var.parse().unwrap();
                         if st[stack_pointer] == 0 {
-                            prog_counter = pos;
+                            prog_counter = pos - 1;
                         }
                     }
                     "UJP" => {
                         let var = operation[1];
                         let pos: usize = var.parse().unwrap();
-                        prog_counter = pos;
+                        prog_counter = pos - 1;
                     }
                     _ => {
                         panic!("Invalid Instruction Code")
@@ -158,16 +159,18 @@ mod tests {
     fn test_normal_sub() {
         let mut buf: Vec<u8> = Vec::new();
         let operators: Vec<String> = vec![
-            "LDC 5".to_string(),
+            "LDC 2".to_string(),
             "STR 0".to_string(),
-            "LOD 0".to_string(),
             "LDC 10".to_string(),
+            "STR 1".to_string(),
+            "LOD 0".to_string(),
+            "LOD 1".to_string(),
             "SUB".to_string(),
             "STR 0".to_string(),
             "PUT 0".to_string(),
         ];
         process(&mut buf, &operators);
-        assert_eq!(buf, b"-5\n");
+        assert_eq!(buf, b"-8\n");
     }
 
     #[test]
@@ -190,16 +193,66 @@ mod tests {
     fn test_normal_div() {
         let mut buf: Vec<u8> = Vec::new();
         let operators: Vec<String> = vec![
+            "LDC 0".to_string(),
             "LDC 5".to_string(),
+            "SUB".to_string(),
             "STR 0".to_string(),
+            "LDC 100".to_string(),
+            "STR 1".to_string(),
+            "LOD 1".to_string(),
             "LOD 0".to_string(),
-            "LDC 2".to_string(),
             "DIV".to_string(),
             "STR 0".to_string(),
             "PUT 0".to_string(),
         ];
         process(&mut buf, &operators);
-        assert_eq!(buf, b"2\n");
+        assert_eq!(buf, b"-20\n");
+    }
+
+    #[test]
+    fn test_normal_eql() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operations: Vec<String> = vec![
+            "LDC 10".to_string(),
+            "STR 25".to_string(),
+            "LDC 10".to_string(),
+            "STR 1".to_string(),
+            "LOD 1".to_string(),
+            "LOD 25".to_string(),
+            "EQL".to_string(),
+            "CJP 13".to_string(),
+            "LOD 1".to_string(),
+            "LDC 2".to_string(),
+            "ADD".to_string(),
+            "STR 1".to_string(),
+            "UJP 4".to_string(),
+            "PUT 1".to_string(),
+        ];
+        process(&mut buf, &operations);
+        assert_eq!(buf, b"12\n");
+    }
+
+    #[test]
+    fn test_normal_grt() {
+        let mut buf: Vec<u8> = Vec::new();
+        let operations: Vec<String> = vec![
+            "LDC 5".to_string(),
+            "STR 25".to_string(),
+            "LDC 8".to_string(),
+            "STR 1".to_string(),
+            "LOD 25".to_string(),
+            "LOD 1".to_string(),
+            "LET".to_string(),
+            "CJP 13".to_string(),
+            "LOD 25".to_string(),
+            "LDC 2".to_string(),
+            "ADD".to_string(),
+            "STR 25".to_string(),
+            "UJP 4".to_string(),
+            "PUT 25".to_string(),
+        ];
+        process(&mut buf, &operations);
+        assert_eq!(buf, b"9\n");
     }
 
     #[test]
@@ -217,7 +270,7 @@ mod tests {
             "LDC 1".to_string(),
             "ADD".to_string(),
             "LET".to_string(),
-            "CJP 20".to_string(),
+            "CJP 21".to_string(),
             "LOD 0".to_string(),
             "LOD 10".to_string(),
             "ADD".to_string(),
@@ -226,7 +279,7 @@ mod tests {
             "LDC 1".to_string(),
             "ADD".to_string(),
             "STR 10".to_string(),
-            "UJP 5".to_string(),
+            "UJP 6".to_string(),
             "PUT 0".to_string(),
         ];
         process(&mut buf, &operators);

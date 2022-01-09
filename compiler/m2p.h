@@ -80,7 +80,7 @@ enum NodeKind {
   ND_SUB,    // -
   ND_MUL,    // *
   ND_DIV,    // /
-  ND_EQT,    // =
+  ND_EQL,    // =
   ND_LES,    // <
   ND_ASS,    // :=
   ND_READ,   // Read
