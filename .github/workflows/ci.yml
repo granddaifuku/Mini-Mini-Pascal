@@ -7,18 +7,43 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  compiler:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: compiler
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         
-      - name: build
+      - name: Build
         run: make
 
-      - name: clean
+      - name: Clean
         run: make clean
 
-      - name: format
+      - name: Format
         run: clang-format --dry-run -Werror -style=google *.cpp *.h
+
+  stack_machine:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: stack_machine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check
+        run: cargo check
+
+      - name: Format
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Test
+        run: cargo test --verbose
